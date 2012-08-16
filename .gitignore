@@ -1,0 +1,57 @@
+*~
+*.swp
+.idea
+
+# output of git svn show-ignore below
+# /
+/target
+/work
+/dojo
+/*.iws
+/*.ipr
+/*.iml
+/derby.log
+/maven.log
+/build.xml
+/build-dependency.xml
+/velocity.log*
+/junit*.properties
+/surefire*.properties
+/.project
+/.classpath
+/.settings
+/.deployables
+/.wtpmodules
+/.externalToolBuilders
+/create.sql
+/drop.sql
+/derby.log
+
+
+# /slidecontainer
+/slidecontainer/target
+/slidecontainer/work
+/slidecontainer/dojo
+/slidecontainer/*.iws
+/slidecontainer/*.ipr
+/slidecontainer/*.iml
+/slidecontainer/derby.log
+/slidecontainer/maven.log
+/slidecontainer/build.xml
+/slidecontainer/build-dependency.xml
+/slidecontainer/velocity.log*
+/slidecontainer/junit*.properties
+/slidecontainer/surefire*.properties
+/slidecontainer/.project
+/slidecontainer/.classpath
+/slidecontainer/.settings
+/slidecontainer/.deployables
+/slidecontainer/.wtpmodules
+/slidecontainer/.externalToolBuilders
+/slidecontainer/create.sql
+/slidecontainer/drop.sql
+/slidecontainer/derby.log
+/slidecontainer/maven-eclipse.xml
+
+# /slidecontainer/src/main/java/
+/slidecontainer/src/main/java/META-INF

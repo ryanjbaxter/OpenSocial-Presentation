@@ -1,0 +1,87 @@
+<!--
+ ***********************************************************************************************************************
+ *
+ * OpenSocial SlideContainer
+ * ==========================================
+ *
+ * Copyright (C) 2012 by Ryan Baxter (http://ryanjbaxter.com)
+ *
+ ***********************************************************************************************************************
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ *
+ ***********************************************************************************************************************
+ -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>OpenSocial Presentation Container</title>
+    <style type="text/css">
+      html {
+        height: 100%;
+      }
+      
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+      
+      #theGadgetSite {
+        height: 100%;
+        width: 100%;
+      }
+      
+      .pageslide {
+      	position: absolute;
+    	top: 50%;
+      }
+      
+      #pageslide {
+      	width: 160px !important; 
+      	background-color: #FFFFFF !important;
+      	box-shadow: none !important;
+      	color: #000000 !important;
+      }
+    </style>
+    <link href="../libs/bootstrap/css/bootstrap.css" rel="stylesheet"></link>
+    <link href="../libs/pageSlide/jquery.pageslide.css" rel="stylesheet"></link>
+    <script type="text/javascript" src="../gadgets/js/container:open-views:opensearch:rpc:xmlutil:selection:actions.js?c=1&debug=1&container=default"></script>
+    <script type="text/javascript" src="../libs/jquery/jquery-1.8.0.min.js"></script>
+    <script type="text/javascript" src="../libs/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/container.js"></script>
+  </head>
+
+  <body>
+  	<div id="pageSlideContent" style="display: none;">
+  	  <div class="well sidebar-nav">
+        <ul id="actionsList" class="nav nav-list">
+          <li class="nav-header">Actions</li>
+        </ul>
+      </div>
+      <div class="well sidebar-nav">
+        <ul class="nav nav-list">
+          <li class="nav-header">Selection</li>
+          <li><a class="selectable person" id="org.opensocial:jane.doe" href="#">Jane Doe</a></li>
+          <li><a class="selectable person" id="org.opensocial:john.doe" href="#">John Doe</a></li>
+          <li><a class="selectable person" id="org.opensocial:george.doe"href="#">George Doe</a></li>
+        </ul>
+      </div>
+  	</div>
+  	<a id="pageSlide"><i id="chevron" class="icon-chevron-right icon-white pageslide"></i></a>
+  	<div id="gadgetModal" class="modal hide fade" style="display: none;">
+  		<div id="gadgetModalBody" class="modal-body"></div>
+  	</div>
+  	<div id="theGadgetSite"></div>
+  	<script type="text/javascript" src="pageSlide/jquery.pageslide.js"></script>
+  </body>
+
+</html>

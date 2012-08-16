@@ -1,0 +1,594 @@
+<!--
+ ***********************************************************************************************************************
+ *
+ * OpenSocial SlideContainer
+ * ==========================================
+ *
+ * Copyright (C) 2012 by Ryan Baxter (http://ryanjbaxter.com)
+ *
+ ***********************************************************************************************************************
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ *
+ ***********************************************************************************************************************
+ -->
+<!DOCTYPE html>
+<html>
+  <head>
+  	<title>OpenSocial Presentation</title>
+  	<link rel="stylesheet" type="text/css" href="../../libs/bootstrap/css/bootstrap.min.css"></link>
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'></link>
+	  <link rel="stylesheet" type="text/css" href="../../libs/reveal-js/css/reset.css"></link>
+	  <link rel="stylesheet" type="text/css" href="../../libs/reveal-js/css/main.css"></link>
+	  <link rel="stylesheet" type="text/css" href="../../libs/reveal-js/lib/css/zenburn.css"></link>
+
+	<!--[if lt IE 9]>
+	  <script src="lib/js/html5shiv.js"></script>
+	<![endif]-->
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slideContainer">
+        <div class="slides"> 
+          <section>
+            <h2>An Introduction To OpenSocial For App Developers</h2>
+            <p>Ryan Baxter, IBM, Software Engineer</p>
+            <p>@ryanjbaxter</p>
+          </section>
+          <section>
+            <h2>What is OpenSocial?</h2>
+            <p>Isn't OpenSocial some Google technology?</p>
+            <img src="images/Google-Open-Social-485.jpeg">
+          </section>
+          <section>
+            <h2 class="slideTitle">OpenSocial's History</h2>
+            <a href="https://dl.dropbox.com/u/58852600/mwlug_gadget_pres/images/opensocial_infographic.png" target="_blank"><img width="190" height="530" src="images/opensocial_infographic.png"/></a>
+          </section>
+          <section>
+            <h2>OpenSocial Components</h2>
+            <ul>
+              <li>OpenSocial is an OPEN specification defining how to build SOCIAL applications which can run in multiple containers.</li>
+              <li>Google Gadgets + Social APIs = OpenSocial</li>
+              <li>Social APIs: People, Friends, Activities</li>
+            </ul>
+            <img src="images/opensocial_components.png" style="margin-top: 25px"/>
+          </section>
+          <section>
+            <h2>What is a gadget?</h2>
+            <pre><code contenteditable>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;Module&gt;
+  &lt;ModulePrefs title="Sample Gadget"
+               description="Something amazing"&gt;
+    &lt;Require feature="foo"/&gt;
+    &lt;Optional feature="bar"/&gt;
+  &lt;/ModulePrefs&gt;
+  &lt;Content type="html"&gt;
+    &lt;![CDATA[
+      &lt;sytle type="text/css"&gt;
+        h1 {color: #FF0000;}
+      &lt;/style&gt;
+      &lt;script type="text/javascript" src="example.js"/&gt;
+      &lt;h1&gt;Hello World&lt;/h1&gt;
+    ]]&gt;
+  &lt;/Content&gt;
+&lt;/Module&gt;
+            </code></pre>
+          </section>
+          <section>
+            <h2>Another Example</h2>
+            <pre><code contenteditable>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;Module&gt;
+  &lt;ModulePrefs title="Sample Gadget"
+               description="Something amazing"&gt;
+    &lt;Require feature="foo"/&gt;
+    &lt;Optional feature="bar"/&gt;
+  &lt;/ModulePrefs&gt;
+  &lt;Content type="html" href="index.html"&gt;
+  &lt;/Content&gt;
+  &lt;Content view="canvas" type="url" 
+    href="http://www.opensocial.org"&gt;
+  &lt;/Content&gt;
+&lt;/Module&gt;
+            </code></pre>
+          </section>
+          <section>
+            <h2>Features</h2>
+            <ul>
+              <li>APIs from the OpenSocial specs are broken up into features</li>
+              <li>Required features mean the gadget cannot render without them</li>
+              <li>Optional features mean the gadget can render in containers without them</li>
+              <li>Containers may have features not present in the spec</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Feature Example</h2>
+            <pre><code contendeditable>
+if(gadgets.util.hasFeature('optionalFeature')) {
+  //Use optional feature
+} else {
+  //Do something else because 
+  //the feature is not available
+}
+            </code></pre>
+
+          </section>
+          <section>
+            <h2>Content Sections</h2>
+            <p>Content sections contain the content of your gadget</p>
+            <ul>
+              <li>Inlined
+                <ul>
+                  <li>Content type must be html</li>
+                  <li>HTML must be placed in CDATA tags</li>
+                  <li>You can also inline Javascript and CSS or they can be remote</li>
+                </ul>
+              </li>
+              <li>Remote
+                <ul>
+                  <li>If the content type is html it must have an href attribute as well</li>
+                  <li>Content type can be URL and have an href attribute equal to any URL</li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h2>Views</h2>
+            <ul>
+              <li>Each content section can optionally be labeled with a view</li>
+              <li>Traditionally views were associated with the amount of realestate given to the gadget</li>
+              <li>Views with the same name get concatenated together</li>
+              <li>APIs
+                <ul>
+                  <li>gadgets.views.getCurrentView() 
+                    <button class="btn btn-primary btn-large" href="#" onclick="getCurrentView();">
+                      Try Me!
+                    </button>
+                  </li>
+                  <li>gadgets.views.getParams()
+                    <button class="btn btn-primary btn-large" href="#" onclick="getViewParams();">
+                      Try Me!
+                    </button>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+             
+          </section>
+          <section>
+            <h2>Preferences</h2>
+            <pre><code contendeditable>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;Module&gt;
+  &lt;ModulePrefs title="Sample Gadget"
+               description="Something amazing"&gt;
+    &lt;Require feature="setprefs" /&gt;
+  &lt;/ModulePrefs&gt;
+  &lt;UserPref name="myname" display_name="Name" required="true" /&gt;
+  &lt;UserPref name="mycolor" display_name="Color" default_value="Yellow" datatype="list" &gt;
+    &lt;EnumValue value="Red" /&gt;
+    &lt;EnumValue value="Aqua" /&gt;
+  &lt;/UserPref&gt;
+  &lt;Content type="html" href="index.html"&gt;
+  &lt;/Content&gt;
+&lt;/Module&gt;
+            </code></pre>
+          </section>
+          <section>
+            <h2>Preferences Live!</h2>
+            <ul>
+              <li>gadgets.Prefs.getString('prefName')
+                 <button class="btn btn-primary btn-large" href="#" onclick="getStringParam();">
+                      Try Me!
+                  </button>
+              </li> 
+              <li>gadgets.Prefs.set('key', 'value')
+                <input id="namePrefValue" class="input-medium" type="text" placeholder="">
+                <button class="btn btn-primary btn-large" href="#" onclick="setNameParam();">
+                    Try Me!
+                </button>
+              </li>
+            </ul>
+
+          </section>
+          <section>
+            <h2>Making AJAX Requests</h2>
+            <ul>
+              <li>OpenSocial containers provide a proxy gadgets can use to make cross domain requests</li>
+              <li>Supports all standard HTTP methods</li>
+            </ul>
+            <pre style="margin-top: 25px;"><code contendeditable>
+var params = {};
+params[gadgets.io.RequestParameters.CONTENT_TYPE] = gadgets.io.ContentType.JSON;
+gadgets.io.makeRequest('http://weather.yahooapis.com/forecastjson?w=2473224', 
+function(response){
+  if(response.errors.length == 0) {
+    //Do something with the results
+  } else {
+    gadgets.error('There was an error making the request.');
+  }
+}, params);
+            </code></pre>
+          </section>
+          <section>
+            <h2>What's it like outside?</h2>
+            <p>Lets make a request to Yahoo!'s weather API...<p>
+            <button class="btn btn-primary btn-large" href="#" onclick="makeRequestExample('weather')">
+              Try Me!
+            </button>
+            <div id="weather">
+            </div>
+          </section>
+          <section>
+            <h2>OAuth</h2>
+            <ul>
+              <li>The OpenSocial spec supports OAuth 1.0a and 2.0 in order to fetch protected resources</li>
+              <li>The OAuth service being used must be configured within the container</li>
+              <li>Pass an extra parameter to gadgets.io.makeRequest in order to let the container know what OAuth service to use</li>
+              <li>You can use either 2-legged or 3-legged OAuth</li>
+              <li>Use the feature oauthpopup when using 3-legged OAuth</li>
+            </ul>
+          </section>
+          <section>
+            <h2>OAuth 1.0a Gadget XML</h2>
+            <pre><code contendeditable>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;Module&gt;
+  &lt;ModulePrefs title="Sample OAuth 1.0a Gadget"&gt;
+    &lt;OAuth&gt;
+      &lt;Service name="ServiceName"&gt;
+        &lt;Request url="http://localhost/oauth-provider/request_token"/&gt;
+        &lt;Access url="http://localhost/oauth-provider/access_token"/&gt;
+        &lt;Authorization url="http://localhost/oauth-provider/authorize"/&gt;
+      &lt;/Service&gt;
+    &lt;/OAuth&gt;
+    &lt;Require feature="oauthpopup" /&gt;
+  &lt;/ModulePrefs&gt;
+  &lt;Content type="html" href="index.html"&gt;
+  &lt;/Content&gt;
+&lt;/Module&gt;
+            </code></pre>
+          </section>
+          <section>
+            <h2>OAuth 2.0 Gadget XML</h2>
+            <pre><code contendeditable>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;Module&gt;
+  &lt;ModulePrefs title="Sample OAuth 2.0 Gadget"&gt;
+    &lt;OAuth2&gt;
+      &lt;Service name="ServiceName" scope="APISocpe"&gt;
+      &lt;/Service&gt;
+    &lt;/OAuth2&gt;
+    &lt;Require feature="oauthpopup" /&gt;
+  &lt;/ModulePrefs&gt;
+  &lt;Content type="html" href="index.html"&gt;
+  &lt;/Content&gt;
+&lt;/Module&gt;
+          </section>
+          <section>
+            <h2>OAuth Gadget Javascript</h2>
+            <pre><code contendeditable>
+var params = {};
+//Uncomment the below code when using OAuth2
+//params[gadgets.io.RequestParameters.AUTHORIZATION] =
+//  gadgets.io.AuthorizationType.OAUTH2;
+//Comment out the below code when using OAuth2
+
+params[gadgets.io.RequestParameters.AUTHORIZATION] =
+  gadgets.io.AuthorizationType.OAUTH;
+params[gadgets.io.RequestParameters.OAUTH_SERVICE_NAME] =
+  'ServiceName';
+gadgets.io.makeRequest(url, oAuthCallback, params);
+            </code></pre>
+          </section>
+          <section>
+            <h2>OAuth Request Callback</h2>
+            <pre><code contendeditable>
+function oAuthCallback (response) {
+  if (response.oauthApprovalUrl) {
+    var onOpen = function() {
+      showOneSection('waiting');
+    };
+    var onClose = function() {
+      //Popup closed make the same request again
+    };
+    var popup = new gadgets.oauth.Popup(
+    response.oauthApprovalUrl, null, onOpen, onClose);
+    $('personalize').onclick = popup.createOpenerOnClick();
+    $('approvaldone').onclick = popup.createApprovedOnClick();
+    showOneSection('approval');
+  } else if (response.data) {
+    //We successfully got the data
+  } else {
+    gadgets.error('something went wrong');
+  }
+}
+            </code></pre>
+          </section>
+          <section>
+            <h2>OAuth Live</h2>
+            <p>Requesting your Google profile requires us to use OAuth.</p>
+            <button class="btn btn-primary btn-large" href="#" onclick="oauthExample()">
+              Try It!
+            </button>
+            <div id="profileInfo"></div>
+          </section>
+          <section>
+            <h2>Embedded Experiences</h2>
+            <ul>
+              <li>Embedded experiences allows app developers to embed content from 
+              one application into another application</li>
+              <li>This allows you to provide easy integration into any OpenSocial container</li>
+              <li>An embedded experience is essentially two things
+                <ul>
+                  <li>A data model, either JSON or XML</li>
+                  <li>A gadget or URL</li>
+                </ul>
+              </li>
+              <li>Embedded in either an email or activity entry</li>
+            </ul>
+          </section>
+          <section>
+            <h2>JSON Data Model</h2>
+            <p>A simple example of a embedded experiences JSON data model</p>
+            <pre><code contendeditable>
+{
+  "gadget" : "http://example.org/embedded/video.xml",
+  "context" : {
+    "video-id" : "abc123"
+  }
+}
+            </code></pre>
+          </section>
+          <section>
+            <h2>XML Data Model</h2>
+            <p>A simple example of a embedded experiences XML data model</p>
+            <pre><code contendeditable>
+&lt;embed&gt;
+  &lt;gadget&gt;http://example.org/embedded/video.xml&lt;/gadget&gt;
+  &lt;context&gt;
+    &lt;video-id&gt;abc123&lt;/video-id&gt;
+  &lt;/context&gt;
+&lt;/embed&gt;
+            </code></pre>
+          </section>
+          <section>
+            <h2>EE Email</h2>
+            <pre><code contendeditable>
+  From: notifications@socialnetwork.com
+  To: johndoe@example.com
+  Subject: Social Network: Mary Has Commented On Your Status
+  MIME-Version: 1.0
+  Content-Type: multipart/alternative;
+          boundary="XXXXboundary text"
+  Mary has commented on your status.
+  --XXXXboundary text
+  Content-Type: text/plain
+  Mary has commeneted on your status. 
+  --XXXXboundary text
+  Content-Type: text/html
+  &lt;!-- HTML representation here --&gt;
+  --XXXXboundary text
+  Content-Type: application/embed+json
+  {
+    "gadget" : "http://example.org/embedded/video.xml",
+    "context" : 123
+  }
+            </code></pre>
+          </section>
+          <section>
+            <h2>EE Activity Stream</h2>
+            <pre><code contendeditable>
+  {
+    "postedTime": "2011-02-10T15:04:55Z",
+    "actor": {
+      "objectType" : "person",
+      "id": "tag:example.org,2011:martin",
+      "displayName": "Martin Smith"
+    },
+    "verb": "post",
+    "object" : {
+      "objectType":"collection",
+      "objectTypes":["video"]
+      "id": "http://example.org/albums/germany-2009",
+      "url": "http://example.org/albums/germany-2009",
+    },
+    "openSocial" : {
+      "embed" : {
+        "gadget" : "http://example.org/embedded/video.xml",
+        "context" : 123
+      }
+    }
+  }
+            </code></pre>
+          </section>
+          <section>
+            <h2>EE Gadget</h2>
+            <pre><code contendeditable>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;Module&gt;
+  &lt;ModulePrefs title="Sample EE Gadget"&gt;
+    &lt;Require feature="embedded-experiences" /&gt;
+  &lt;/ModulePrefs&gt;
+  &lt;Content type="html" view="embed"&gt;
+    &lt;![CDATA[
+      &lt;script type="text/javascript"&gt;
+        gadgets.util.registerOnLoadHandler(function() {
+          gadgets.ee.registerContextListener(function(context) {
+            document.getElementById('contextData').innerHTML = 
+            gadgets.json.stringify(context);
+          });
+        });
+      &lt;/script&gt;
+      &lt;div id="contextData"&gt;&lt;/div&gt;
+    ]]&gt;
+  &lt;/Content&gt;
+&lt;/Module&gt;
+          	</code></pre>
+          </section>
+          <section>
+            <h2>Opening Other Views</h2>
+          	<ul>
+          	  <li>The gadget has the ability to open views of itself in different locations (targets)
+          	  	<ul>
+				  <li>In place, modal dialog, dialog, tab, sidebar, etc</li>
+          	  	</ul>
+          	  </li>
+          	  <li>Results from actions taken in this view can be passed back to the opening gadget
+          	  	<ul>
+          	      <li>gadgets.views.setResult(result)</li>
+          	  	</ul>
+          	  </li>
+          	  <li>Gadget can also open other objects in the same types of targets
+          	  	<ul>
+          	  	  <li>gadgets.views.openUrl</li>
+          	  	  <li>gadgets.views.openEmbeddedExperience</li>
+          	  	</ul>
+          	  </li>
+          	</ul>
+          </section>
+          <section>
+          	<h2>Open Gadget Code</h2>
+          	<pre><code contendeditable>
+var params = {};
+params['view'] = 'dialog'
+gadgets.views.openGadget(function(result){
+  document.getElementById('answer').innerHTML = result;
+}, function(metadata){}, params);
+          	</code></pre>
+          </section>
+          <section>
+          	<h2>Opening Views Live!</h2>
+          	<p>What do you think of OpenSocial so far?
+          	  <button class="btn btn-primary btn-large" href="#" onclick="openView();">
+                Answer
+              </button>
+            </p>
+            <div id="answerWrapper" style="display: none;"> Answer: <span id="answer"></h2></div>
+          </section>
+          <section>
+          	<h2>Actions &amp; Selection</h2>
+          	<ul>
+          		<li>Prior to OpenSocial 2.0 there was no standard integration you could do with the container</li>
+          		<li>Selection lets you publish and listen for selected objects from the container you are in
+          			<ul>
+          			  <li>Selected objects are based on OpenSocial data types, person, file, activity, etc</li>
+          			</ul>
+          		</li>
+          		<li>Actions let you contribute actions to the container from your gadget
+          			<ul>
+          			  <li>Actions can be contributed to toolbars, menus, context menus, etc.</li>
+          			  <li>They can also be enabled/disabled based on the selected object</li>
+          			</ul>
+          		</li>
+          	</uL>
+          </section>
+          <section>
+          	<h2>Selection Gadget</h2>
+          	<pre><code contendeditable>
+&lt;Module&gt;
+  &lt;ModulePrefs title="Sample Selection Listener"&gt;
+    &lt;Optional feature="selection"/&gt;
+  &lt;/ModulePrefs&gt;
+  &lt;Content type="html"&gt;
+    &lt;![CDATA[
+      &lt;script&gt;
+        function addListener() {
+          gadgets.selection.addListener(function(selection){
+            var output = document.getElementById("output");
+            output.innerHTML = gadgets.json.stringify(selection)
+            + '&lt;br/&gt;' + output.innerHTML;
+          });
+          document.getElementById("output").innerHTML = "added...";
+        };
+      &lt;/script&gt;
+      &lt;div id="output"&gt;&lt;/div&gt;
+    ]]&gt;
+  &lt;/Content&gt;
+&lt;/Module&gt;
+          	</code></pre>
+          </section>
+          <section>
+          	<h2>Selection Live!</h2>
+          	<p>Click the chevron to the left to open a panel within the container and 
+          		you should see a list of selectable.  Clicking on one will print the
+          		selected persons name below.
+          	</p>
+          	<div id="selectionContainer"></div>
+          </section>
+          <section>
+          	<h2>Actions Gadget</h2>
+          	<pre><code contendeditable>
+&lt;Module&gt;
+  &lt;ModulePrefs title="Sample Actions Gadget"&gt;
+    &lt;Optional feature="actions"&gt;
+      &lt;Param name="action-contributions"&gt;
+        &lt;![CDATA[
+          &lt;action id="org.opensocial.slides.showWeather" 
+          path="container/actions" label="Show Me The Weather"/&gt;
+        ]]>
+      &lt;/Param&gt;
+    &lt;/Optional&gt;
+  &lt;/ModulePrefs&gt;
+  &lt;Content type="html"&gt;
+    &lt;![CDATA[
+    	.....
+    ]]&gt;
+  &lt;/Content&gt;
+&lt;/Module&gt;
+          	</code></pre>
+          </section>
+           <section>
+          	<h2>Actions Callback</h2>
+          	<pre><code contendeditable>
+//The below code registers a function to be called when the
+//action is executed in the container          		
+gadgets.actions.updateAction({
+  id: "org.opensocial.slides.showWeather",
+  callback: weatherAction
+});
+
+function weatherAction() {
+  //Code here to show the weather	
+};          		
+          	</code></pre>
+          </section>
+          <section>
+          	<h2>Actions Live!</h2>
+          	<p>
+          	  Click the chevron to the left to open a panel within the container and 
+          	  you should see a list of actions available to exectue.  Click on the one
+          	  titled "Show Me The Weather".
+          	</p>
+          	<div id="actionWeather"></div>
+          </section>
+          <section>
+          	<h2>References</h2>
+          	<ul>
+          	  <li><a href="http://opensocial.org" target="_blank">OpenSocial</a></li>
+              <li><a href="http://sandbox.opensocial2.org" target="_blank">OpenSocial Sandbox</a></li>
+          	  <li><a href="http://carolglennon.com/2012/07/17/opensocial-overview-part-1/" target="_blank">Carol Glennon's OpenSocial Overview</a></li>
+          	  <li><a href="http://shindig.apache.org" target="_blank">Apache Shindig</a></li>
+          	  <li><a href="http://ryanjbaxter.com" target="_blank">Ryan Baxter's Blog</a></li>
+              <li><a href="http://shindig.apache.org" target="_blank">Apache Shindig</a></li>
+              <li><a href="http://rave.apache.org" target="_blank">Apache Rave</a></li>
+          	</ul>
+          </section>
+        </div>
+      </div>
+    </div>
+
+
+    <script type="text/javascript" src="../../libs/reveal-js/js/reveal.js"></script>
+    <script type="text/javascript" src="../../libs/reveal-js/lib/js/highlight.js"></script>
+    <script type="text/javascript" src="js/opensocial-pres.js"></script>
+  </body>
+</html>
