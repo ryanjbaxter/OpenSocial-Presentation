@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ ***********************************************************************************************************************
+ *
+ * OpenSocial SlideContainer
+ * ==========================================
+ *
+ * Copyright (C) 2012 by Ryan Baxter (http://ryanjbaxter.com)
+ *
+ ***********************************************************************************************************************
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ *
+ ***********************************************************************************************************************
+ -->
+<Module specificationVersion='2'>
+  <ModulePrefs title="OpenSocial Presentaion"
+               description="Presentation on OpenSocial">
+    <OAuth2>
+      <Service name="googleAPI" scope="https://www.googleapis.com/auth/plus.me">
+      </Service>
+    </OAuth2>
+    <Require feature="oauthpopup" />
+    <Require feature="dynamic-height"/>
+    <Require feature="views"/>
+    <Require feature="setprefs"/>
+    <Require feature="open-views"/>
+    <Optional feature="content-rewrite">
+      <Param name="exclude-url">*</Param>
+    </Optional>
+    <Optional feature="actions">
+      <Param name="action-contributions">
+        <![CDATA[
+          <action id="org.opensocial.slides.showWeather" path="container/actions" label="Show Me The Weather"/>
+        ]]>
+     </Param>
+  </Optional>
+  <Optional feature="selection"/>
+  </ModulePrefs>
+  <UserPref name="myname" display_name="Name" required="true" default_value="John Doe"/>
+  <Content type="html" href="opensocial-pres.html" view="default, canvas">
+  </Content>
+  <Content type="html" view="dialog">
+    <![CDATA[
+      <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css"></link>
+      <div>
+        <h2>How Do You Like OpenSocial So Far?</h2>
+        <p>
+          <a class="btn btn-primary btn-large" onclick="gadgets.views.setReturnValue('Excellent'); gadgets.views.close();">Excellent</a>
+          <a class="btn btn-primary btn-large" onclick="gadgets.views.setReturnValue('Alright'); gadgets.views.close();">Alright</a>
+          <a class="btn btn-primary btn-large" onclick="gadgets.views.setReturnValue('Needs Work'); gadgets.views.close();">Needs Work</a>
+        </p>
+      </div>
+    ]]>
+  </Content>
+</Module>
