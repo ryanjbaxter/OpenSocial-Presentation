@@ -22,13 +22,13 @@
    "gadgetBindings" : {
       "%origin%%contextRoot%/slidecontainer/gadget/opensocial-pres.xml" : {
         "googleAPI" : {
-            "clientName"          : "googlemwlug_client",
+            "clientName"          : "google_client",
             "allowModuleOverride" : "true"
           }
       }
    },
    "clients" : {
-      "googlemwlug_client" : {
+      "google_client" : {
          "providerName"  : "googleAPI",
          "redirect_uri"  : "%origin%%contextRoot%/gadgets/oauth2callback",
          "type"          : "confidential",
