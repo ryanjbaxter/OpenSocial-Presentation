@@ -31,7 +31,7 @@
     <Require feature="dynamic-height"/>
     <Require feature="views"/>
     <Require feature="setprefs"/>
-    <Require feature="open-views"/>
+    <Optional feature="open-views"/>
     <Optional feature="content-rewrite">
       <Param name="exclude-url">*</Param>
     </Optional>
